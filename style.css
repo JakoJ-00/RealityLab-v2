@@ -1,0 +1,82 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background: #121212;
+  color: white;
+  padding: 20px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* HEADER & FOOTER */
+.header,
+.footer {
+  width: 100%;
+  background: #1a1a1a;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+/* SEKCJA ŚRODKOWA */
+.sidebar-container,
+.content-container {
+  display: flex;
+  gap: 20px;
+}
+
+/* Sidebar z Weather pod spodem */
+.sidebar-container {
+  flex-direction: column;
+  width: 25%;
+}
+
+/* Dwa contenty obok siebie */
+.content-container {
+  flex-grow: 1;
+  flex-wrap: wrap;
+}
+
+/* BOXY INDYWIDUALNE */
+.sidebar,
+.weather,
+.content1,
+.content2 {
+  background: #333;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.sidebar,
+.weather {
+  min-height: 100px;
+}
+
+.content1,
+.content2 {
+  flex: 1 1 48%;
+  min-height: 150px;
+}
+
+/* RESPONSYWNOŚĆ */
+@media (max-width: 768px) {
+  .sidebar-container,
+  .content-container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .content1,
+  .content2 {
+    width: 100%;
+  }
+}
