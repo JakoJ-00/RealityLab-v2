@@ -13,7 +13,7 @@
     <div class="main">
       <div class="left-column">
         <div class="box">Sidebar</div>
-        <div class="box">Weather</div>
+        <div class="box1">Weather</div>
       </div>
       <div class="right-column">
         <div class="box">Content 1</div>
@@ -23,5 +23,51 @@
 
     <div class="footer">Footer</div>
   </div>
+
+  <script>
+    function updateDateTimeAndWeather() {
+  const weatherElement = document.getElementById('box1');
+
+  // Aktualna data i godzina
+  const now = new Date();
+  const date = now.toLocaleDateString('pl-PL', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  const time = now.toLocaleTimeString('pl-PL');
+
+  // Pobierz pogodę z Open-Meteo
+  const lat = 52.2297;
+  const lon = 21.0122;
+
+  fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
+    .then(response => response.json())
+    .then(data => {
+      const temperature = data.current_weather.temperature;
+      const windspeed = data.current_weather.windspeed;
+
+      weatherElement.innerHTML = `
+        <div><strong>${date}</strong></div>
+        <div>${time}</div>
+        <hr style="margin: 8px 0; border-color: #444;">
+        <div><strong>Warszawa</strong></div>
+        <div>🌡️ ${temperature}°C | 💨 ${windspeed} km/h</div>
+      `;
+    })
+    .catch(error => {
+      weatherElement.innerHTML = "Nie udało się pobrać pogody.";
+      console.error(error);
+    });
+}
+
+// Uruchom na starcie
+updateDateTimeAndWeather();
+
+// Aktualizuj czas co sekundę
+setInterval(updateDateTimeAndWeather, 10000); // pogoda co 10 sek, można zwiększyć
+  </script>
+ 
 </body>
 </html>
