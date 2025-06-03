@@ -8,7 +8,13 @@
 </head>
 <body>
   <div class="container">
-    <div class="header">RealityLab</div>
+    <div class="header">
+      RealityLab
+      <button id="menu-toggle" style="float: right; font-size: 1.5em; background: none; border: none; color: white; cursor: pointer;">
+        ☰
+      </button>
+    </div>
+
 
     <div class="main">
       <div class="left-column">
@@ -43,10 +49,10 @@
         <div class="box">Content 2</div>
       </div>
     </div>
-
-    <div class="footer">Footer</div>
   </div>
 
+  
+  
   <script>
   function updateClock() {
     const now = new Date();
@@ -103,7 +109,27 @@
 
   // Aktualizuj pogodę co 10 minut
   setInterval(updateWeather, 600000);
+
+    document.getElementById("menu-toggle").addEventListener("click", () => {
+    document.getElementById("side-menu").classList.add("open");
+  });
+  
+  document.getElementById("menu-close").addEventListener("click", () => {
+    document.getElementById("side-menu").classList.remove("open");
+  });
+
+    
 </script>
+
+<div id="side-menu">
+  <button id="menu-close">✖</button>
+  <ul>
+    <li><a href="#">Strona główna</a></li>
+    <li><a href="#">O nas</a></li>
+    <li><a href="#">Filmy</a></li>
+    <li><a href="#">Kontakt</a></li>
+  </ul>
+</div>
 
 </body>
 </html>
