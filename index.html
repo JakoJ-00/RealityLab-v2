@@ -25,49 +25,57 @@
   </div>
 
   <script>
-    function updateDateTimeAndWeather() {
   const weatherElement = document.getElementById('weather');
 
-  // Aktualna data i godzina
-  const now = new Date();
-  const date = now.toLocaleDateString('pl-PL', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-  const time = now.toLocaleTimeString('pl-PL');
-
-  // Pobierz pogodę z Open-Meteo
-  const lat = 52.2297;
-  const lon = 21.0122;
-
-  fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
-    .then(response => response.json())
-    .then(data => {
-      const temperature = data.current_weather.temperature;
-      const windspeed = data.current_weather.windspeed;
-
-      weatherElement.innerHTML = `
-        <div><strong>${date}</strong></div>
-        <div>${time}</div>
-        <hr style="margin: 8px 0; border-color: #444;">
-        <div><strong>Warszawa</strong></div>
-        <div>🌡️ ${temperature}°C | 💨 ${windspeed} km/h</div>
-      `;
-    })
-    .catch(error => {
-      weatherElement.innerHTML = "Nie udało się pobrać pogody.";
-      console.error(error);
+  function updateClock() {
+    const now = new Date();
+    const date = now.toLocaleDateString('pl-PL', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     });
-}
+    const time = now.toLocaleTimeString('pl-PL');
 
-// Uruchom na starcie
-updateDateTimeAndWeather();
+    const dateHtml = `<div><strong>${date}</strong></div>`;
+    const timeHtml = `<div id="clock">${time}</div>`;
 
-// Aktualizuj czas co sekundę
-setInterval(updateDateTimeAndWeather, 10000); // pogoda co 10 sek, można zwiększyć
-  </script>
+    const existingContent = weatherElement.innerHTML;
+    const parts = existingContent.split('<hr'); // oddziel dane pogodowe
+    if (parts.length > 1) {
+      weatherElement.innerHTML = `${dateHtml}${timeHtml}<hr${parts[1]}`;
+    }
+  }
+
+  function updateWeather() {
+    const lat = 52.2297;
+    const lon = 21.0122;
+
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)
+      .then(response => response.json())
+      .then(data => {
+        const temperature = data.current_weather.temperature;
+        const windspeed = data.current_weather.windspeed;
+
+        weatherElement.innerHTML = `
+          <div><strong>${new Date().toLocaleDateString('pl-PL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</strong></div>
+          <div id="clock">${new Date().toLocaleTimeString('pl-PL')}</div>
+          <hr style="margin: 8px 0; border-color: #444;">
+          <div><strong>Warszawa</strong></div>
+          <div>🌡️ ${temperature}°C | 💨 ${windspeed} km/h</div>
+        `;
+      })
+      .catch(error => {
+        weatherElement.innerHTML = "Nie udało się pobrać pogody.";
+        console.error(error);
+      });
+  }
+
+  updateWeather();          // uruchom raz na start
+  updateClock();            // od razu ustaw czas
+  setInterval(updateClock, 1000);     // aktualizuj co sekundę
+  setInterval(updateWeather, 600000); // pogoda co 10 minut (600 000 ms)
+</script>
  
 </body>
 </html>
