@@ -69,12 +69,23 @@
       });
   }
 
-  updateClock();
-  updateWeather();
+  function startPreciseClock() {
+    function tick() {
+      updateClock();
+      const now = new Date();
+      const delay = 1000 - (now.getMilliseconds());
+      setTimeout(tick, delay);
+    }
+    tick();
+  }
 
-  setInterval(updateClock, 1000);      // aktualizuj datę i godzinę co 1 sekundę
-  setInterval(updateWeather, 600000);  // aktualizuj pogodę co 10 minut
+  // Start zegara i pogody
+  updateWeather();
+  startPreciseClock();
+
+  // Aktualizuj pogodę co 10 minut
+  setInterval(updateWeather, 600000);
 </script>
- 
+
 </body>
 </html>
