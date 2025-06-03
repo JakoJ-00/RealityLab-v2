@@ -70,6 +70,8 @@ body {
 
 #side-menu.open {
   right: 0;
+  background-color: #800080;
+  padding: 20px;
 }
 
 #side-menu ul {
