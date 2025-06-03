@@ -13,7 +13,12 @@
     <div class="main">
       <div class="left-column">
         <div class="box">Sidebar</div>
-        <div id="weather" class="box">Weather</div>
+        <div id="weather" class="box">
+          Weather
+            <div id="datetime"></div>
+            <hr style="margin: 8px 0; border-color: #444;">
+            <div id="weather-data"></div>
+        </div>
       </div>
       <div class="right-column">
         <div class="box">Content 1</div>
@@ -25,8 +30,6 @@
   </div>
 
   <script>
-  const weatherElement = document.getElementById('weather');
-
   function updateClock() {
     const now = new Date();
     const date = now.toLocaleDateString('pl-PL', {
@@ -37,14 +40,11 @@
     });
     const time = now.toLocaleTimeString('pl-PL');
 
-    const dateHtml = `<div><strong>${date}</strong></div>`;
-    const timeHtml = `<div id="clock">${time}</div>`;
-
-    const existingContent = weatherElement.innerHTML;
-    const parts = existingContent.split('<hr'); // oddziel dane pogodowe
-    if (parts.length > 1) {
-      weatherElement.innerHTML = `${dateHtml}${timeHtml}<hr${parts[1]}`;
-    }
+    const datetimeHtml = `
+      <div><strong>${date}</strong></div>
+      <div>${time}</div>
+    `;
+    document.getElementById('datetime').innerHTML = datetimeHtml;
   }
 
   function updateWeather() {
@@ -57,24 +57,23 @@
         const temperature = data.current_weather.temperature;
         const windspeed = data.current_weather.windspeed;
 
-        weatherElement.innerHTML = `
-          <div><strong>${new Date().toLocaleDateString('pl-PL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</strong></div>
-          <div id="clock">${new Date().toLocaleTimeString('pl-PL')}</div>
-          <hr style="margin: 8px 0; border-color: #444;">
+        const weatherHtml = `
           <div><strong>Warszawa</strong></div>
           <div>🌡️ ${temperature}°C | 💨 ${windspeed} km/h</div>
         `;
+        document.getElementById('weather-data').innerHTML = weatherHtml;
       })
       .catch(error => {
-        weatherElement.innerHTML = "Nie udało się pobrać pogody.";
+        document.getElementById('weather-data').innerHTML = "Nie udało się pobrać pogody.";
         console.error(error);
       });
   }
 
-  updateWeather();          // uruchom raz na start
-  updateClock();            // od razu ustaw czas
-  setInterval(updateClock, 1000);     // aktualizuj co sekundę
-  setInterval(updateWeather, 600000); // pogoda co 10 minut (600 000 ms)
+  updateClock();
+  updateWeather();
+
+  setInterval(updateClock, 1000);      // aktualizuj datę i godzinę co 1 sekundę
+  setInterval(updateWeather, 600000);  // aktualizuj pogodę co 10 minut
 </script>
  
 </body>
