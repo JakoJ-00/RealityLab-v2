@@ -21,7 +21,7 @@ body {
 
 .header, .footer {
   background-color: #1a1a1a;
-  text-align: center;
+  text-align: left;
   padding: 1rem;
   border-radius: 8px;
 }
