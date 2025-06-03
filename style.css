@@ -60,7 +60,7 @@ body {
   right: -300px;
   width: 250px;
   height: 100%;
-  background-color: #222;
+  background-color: #800080;
   color: white;
   box-shadow: -2px 0 5px rgba(0,0,0,0.5);
   padding: 20px;
@@ -74,7 +74,7 @@ body {
 
 #side-menu ul {
   list-style: none;
-  padding: 0;
+  padding: 20px;
 }
 
 #side-menu ul li {
