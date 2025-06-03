@@ -51,9 +51,7 @@
     </div>
   </div>
 
-  
-  
-  <script>
+ <script>
   function updateClock() {
     const now = new Date();
     const date = now.toLocaleDateString('pl-PL', {
@@ -97,28 +95,33 @@
     function tick() {
       updateClock();
       const now = new Date();
-      const delay = 1000 - (now.getMilliseconds());
+      const delay = 1000 - now.getMilliseconds();
       setTimeout(tick, delay);
     }
     tick();
   }
 
-  // Start zegara i pogody
-  updateWeather();
-  startPreciseClock();
+  // ⬇️ Uruchamiamy po załadowaniu DOM
+  window.onload = function () {
+    updateWeather();
+    startPreciseClock();
+
+    // Obsługa menu
+    const toggleBtn = document.getElementById("menu-toggle");
+    const closeBtn = document.getElementById("menu-close");
+    const sideMenu = document.getElementById("side-menu");
+
+    toggleBtn.addEventListener("click", () => {
+      sideMenu.classList.add("open");
+    });
+
+    closeBtn.addEventListener("click", () => {
+      sideMenu.classList.remove("open");
+    });
+  };
 
   // Aktualizuj pogodę co 10 minut
   setInterval(updateWeather, 600000);
-
-    document.getElementById("menu-toggle").addEventListener("click", () => {
-    document.getElementById("side-menu").classList.add("open");
-  });
-  
-  document.getElementById("menu-close").addEventListener("click", () => {
-    document.getElementById("side-menu").classList.remove("open");
-  });
-
-    
 </script>
 
 <div id="side-menu">
